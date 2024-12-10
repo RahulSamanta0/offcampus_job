@@ -8,11 +8,11 @@ import { motion } from 'framer-motion';
 const filterData = [
   {
     filterType: "Location",
-    array: ["Delhi NCR", "Bangalore", "Hyderabad", "Pune", "Mumbai"]
+    array: ["Delhi NCR", "Bangalore", "Hyderabad", "Pune", "Mumbai", "Kolkata"]
   },
   {
     filterType: "Industry",
-    array: ["Frontend Developer", "Backend Developer", "FullStack Developer"]
+    array: ["Frontend Developer", "Backend Developer", "FullStack Developer", "Ai || ML"]
   },
   {
     filterType: "Salary",
