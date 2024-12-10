@@ -132,61 +132,66 @@ export const logout = async (req, res) => {
         console.log(error);
     }
 }
-export const updateProfile = async (req, res) => {
-    try {
-        const { fullname, email, phoneNumber, bio, skills } = req.body;
-        
-        const file = req.file;
-        // cloudinary 
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-
-
-
-        let skillsArray;
-        if(skills){
-            skillsArray = skills.split(",");
-        }
-        const userId = req.id; // middleware authentication
-        let user = await User.findById(userId);
-
-        if (!user) {
-            return res.status(400).json({
-                message: "User not found.",
-                success: false
-            })
-        }
-        // updating data
-        if(fullname) user.fullname = fullname
-        if(email) user.email = email
-        if(phoneNumber)  user.phoneNumber = phoneNumber
-        if(bio) user.profile.bio = bio
-        if(skills) user.profile.skills = skillsArray
-      
-        // resume comes later here...
-        if(cloudResponse){
-            user.profile.resume = cloudResponse.secure_url // save the cloudinary url
-            user.profile.resumeOriginalName = file.originalname // Save the original file name
-        }
-
-
-        await user.save();
-
-        user = {
-            _id: user._id,
-            fullname: user.fullname,
-            email: user.email,
-            phoneNumber: user.phoneNumber,
-            role: user.role,
-            profile: user.profile
-        }
-
-        return res.status(200).json({
-            message:"Profile updated successfully.",
-            user,
-            success:true
-        })
-    } catch (error) {
-        console.log(error);
-    }
-}
+export const updateProfile = async (req, res) => { 
+    try { 
+        const { fullname, email, phoneNumber, bio, skills } = req.body; 
+        const file = req.file; 
+        const userId = req.id; // from authentication middleware 
+ 
+        let user = await User.findById(userId); 
+        if (!user) { 
+            return res.status(404).json({ 
+                message: "User not found.", 
+                success: false, 
+            }); 
+        } 
+ 
+        // Update user fields 
+        if (fullname) user.fullname = fullname; 
+        if (email) user.email = email; 
+        if (phoneNumber) user.phoneNumber = phoneNumber; 
+        if (bio) user.profile.bio = bio; 
+        if (skills) user.profile.skills = skills.split(","); 
+ 
+        // Handle file upload (profile picture or other image) 
+        if (file) { 
+            const fileUri = getDataUri(file); 
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content, { 
+                resource_type: "image", // Correct resource type for images 
+                folder: "user_profiles", 
+                format: "jpg", // Convert to JPG 
+                pages: true,   // Convert all pages or a specific page // Optional: Organize uploads in a specific folder 
+            }); 
+ 
+            user.profile.resume = cloudResponse.secure_url; // Save Cloudinary URL 
+            user.profile.resumeOriginalName = file.originalname; // Save original filename 
+        } 
+ 
+        await user.save(); 
+ 
+        // Prepare response user object 
+        const responseUser = { 
+            _id: user._id, 
+            fullname: user.fullname, 
+            email: user.email, 
+            phoneNumber: user.phoneNumber, 
+            role: user.role, 
+            profile: user.profile, 
+        }; 
+ 
+        // Explicitly set Content-Type header 
+        res.setHeader("Content-Type", "application/json"); 
+        return res.status(200).json({ 
+            message: "Profile updated successfully.", 
+            user: responseUser, 
+            success: true, 
+        }); 
+    } catch (error) { 
+        console.error(error); 
+        return res.status(500).json({ 
+            message: "Internal server error.", 
+            error: error.message, 
+            success: false, 
+        }); 
+    } 
+};

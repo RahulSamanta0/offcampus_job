@@ -135,7 +135,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     id="file"
                                     name="file"
                                     type="file"
-                                    accept="application/pdf"
+                                    accept="application/jpg,application/jpeg,application/png"
                                     onChange={fileChangeHandler}
                                     className="col-span-3"
                                 />

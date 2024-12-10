@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Badge } from './ui/badge'
-import { Button } from './ui/button'
+import React, { useEffect, useState } from 'react';
+import { Badge } from './ui/badge';
+import { Button } from './ui/button';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from '@/utils/constant';
@@ -9,9 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 
 const JobDescription = () => {
-    const {singleJob} = useSelector(store => store.job);
-    const {user} = useSelector(store=>store.auth);
-    const isIntiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
+    const { singleJob } = useSelector((store) => store.job);
+    const { user } = useSelector((store) => store.auth);
+    const isIntiallyApplied = singleJob?.applications?.some(
+        (application) => application.applicant === user?._id
+    ) || false;
     const [isApplied, setIsApplied] = useState(isIntiallyApplied);
 
     const params = useParams();
@@ -20,66 +22,120 @@ const JobDescription = () => {
 
     const applyJobHandler = async () => {
         try {
-            const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, {withCredentials:true});
-            
-            if(res.data.success){
-                setIsApplied(true); // Update the local state
-                const updatedSingleJob = {...singleJob, applications:[...singleJob.applications,{applicant:user?._id}]}
-                dispatch(setSingleJob(updatedSingleJob)); // helps us to real time UI update
-                toast.success(res.data.message);
+            const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, {
+                withCredentials: true,
+            });
 
+            if (res.data.success) {
+                setIsApplied(true);
+                const updatedSingleJob = {
+                    ...singleJob,
+                    applications: [
+                        ...singleJob.applications,
+                        { applicant: user?._id },
+                    ],
+                };
+                dispatch(setSingleJob(updatedSingleJob));
+                toast.success(res.data.message);
             }
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
         }
-    }
+    };
 
-    useEffect(()=>{
+    useEffect(() => {
         const fetchSingleJob = async () => {
             try {
-                const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`,{withCredentials:true});
-                if(res.data.success){
+                const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, {
+                    withCredentials: true,
+                });
+                if (res.data.success) {
                     dispatch(setSingleJob(res.data.job));
-                    setIsApplied(res.data.job.applications.some(application=>application.applicant === user?._id)) // Ensure the state is in sync with fetched data
+                    setIsApplied(
+                        res.data.job.applications.some(
+                            (application) => application.applicant === user?._id
+                        )
+                    );
                 }
             } catch (error) {
                 console.log(error);
             }
-        }
-        fetchSingleJob(); 
-    },[jobId,dispatch, user?._id]);
+        };
+        fetchSingleJob();
+    }, [jobId, dispatch, user?._id]);
 
     return (
-        <div className='max-w-7xl mx-auto my-10'>
-            <div className='flex items-center justify-between'>
-                <div>
-                    <h1 className='font-bold text-xl'>{singleJob?.title}</h1>
-                    <div className='flex items-center gap-2 mt-4'>
-                        <Badge className={'text-blue-700 font-bold'} variant="ghost">{singleJob?.postion} Positions</Badge>
-                        <Badge className={'text-[#F83002] font-bold'} variant="ghost">{singleJob?.jobType}</Badge>
-                        <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{singleJob?.salary}LPA</Badge>
+        <div className="bg-gradient-to-r from-blue-100 to-green-100 min-h-screen py-6">
+            {/* Main Container */}
+            <div className="max-w-7xl mx-auto bg-white shadow-lg rounded-lg px-6 py-8">
+                {/* Header Section */}
+                <div className="flex items-center justify-between mb-6 border-b-2 border-gray-200 pb-4">
+                    <div>
+                        <h1 className="text-2xl font-bold text-gray-800">{singleJob?.title}</h1>
+                        <div className="flex items-center gap-2 mt-3">
+                            <Badge
+                                className="text-blue-700 font-semibold"
+                                variant="ghost"
+                            >
+                                {singleJob?.postion} Positions
+                            </Badge>
+                            <Badge className="text-[#F83002] font-semibold" variant="ghost">
+                                {singleJob?.jobType}
+                            </Badge>
+                            <Badge className="text-[#7209b7] font-semibold" variant="ghost">
+                                {singleJob?.salary} LPA
+                            </Badge>
+                        </div>
+                    </div>
+                    {/* Apply Button */}
+                    <Button
+                        onClick={isApplied ? null : applyJobHandler}
+                        disabled={isApplied}
+                        className={`transition-all ease-in-out transform duration-300 rounded-lg px-4 py-2 ${
+                            isApplied
+                                ? 'bg-gray-400 cursor-not-allowed'
+                                : 'bg-[#7209b7] hover:bg-[#5f32ad]'
+                        }`}
+                    >
+                        {isApplied ? 'Already Applied' : 'Apply Now'}
+                    </Button>
+                </div>
+
+                {/* Job Info Section */}
+                <div className="my-4">
+                    <h2 className="text-lg font-semibold mb-2 text-gray-700">Job Details</h2>
+                    <div className="space-y-3">
+                        <div className="p-3 bg-gray-50 border rounded-lg shadow-sm">
+                            <p className="font-medium text-gray-700">
+                                <span className="text-blue-700">Role:</span> {singleJob?.title}
+                            </p>
+                        </div>
+                        <div className="p-3 bg-gray-50 border rounded-lg shadow-sm">
+                            <p className="font-medium text-gray-700">
+                                <span className="text-blue-700">Location:</span> {singleJob?.location}
+                            </p>
+                        </div>
+                        <div className="p-3 bg-gray-50 border rounded-lg shadow-sm">
+                            <p className="font-medium text-gray-700">
+                                <span className="text-blue-700">Experience Required:</span> {singleJob?.experience} years
+                            </p>
+                        </div>
+                        <div className="p-3 bg-gray-50 border rounded-lg shadow-sm">
+                            <p className="font-medium text-gray-700">
+                                <span className="text-blue-700">Salary:</span> {singleJob?.salary} LPA
+                            </p>
+                        </div>
+                        <div className="p-3 bg-gray-50 border rounded-lg shadow-sm">
+                            <p className="font-medium text-gray-700">
+                                <span className="text-blue-700">Posted Date:</span> {singleJob?.createdAt?.split('T')[0]}
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <Button
-                onClick={isApplied ? null : applyJobHandler}
-                    disabled={isApplied}
-                    className={`rounded-lg ${isApplied ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#7209b7] hover:bg-[#5f32ad]'}`}>
-                    {isApplied ? 'Already Applied' : 'Apply Now'}
-                </Button>
-            </div>
-            <h1 className='border-b-2 border-b-gray-300 font-medium py-4'>Job Description</h1>
-            <div className='my-4'>
-                <h1 className='font-bold my-1'>Role: <span className='pl-4 font-normal text-gray-800'>{singleJob?.title}</span></h1>
-                <h1 className='font-bold my-1'>Location: <span className='pl-4 font-normal text-gray-800'>{singleJob?.location}</span></h1>
-                <h1 className='font-bold my-1'>Description: <span className='pl-4 font-normal text-gray-800'>{singleJob?.description}</span></h1>
-                <h1 className='font-bold my-1'>Experience: <span className='pl-4 font-normal text-gray-800'>{singleJob?.experience} yrs</span></h1>
-                <h1 className='font-bold my-1'>Salary: <span className='pl-4 font-normal text-gray-800'>{singleJob?.salary}LPA</span></h1>
-                <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal text-gray-800'>{singleJob?.applications?.length}</span></h1>
-                <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal text-gray-800'>{singleJob?.createdAt.split("T")[0]}</span></h1>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default JobDescription
+export default JobDescription;

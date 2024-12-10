@@ -74,3 +74,271 @@
       @apply bg-background text-foreground;
     }
   }
+
+  /* Fade-in Effect */
+@keyframes fade-in-slow {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+.animate-fade-in-slow {
+  animation: fade-in-slow 2s ease-in-out;
+}
+
+/* Zoom-in Effect */
+@keyframes zoom-in {
+  from {
+      transform: scale(0.9);
+      opacity: 0.8;
+  }
+  to {
+      transform: scale(1);
+      opacity: 1;
+  }
+}
+
+.animate-zoom-in {
+  animation: zoom-in 1.5s ease-in-out;
+}
+
+/* Slide-in Effect */
+@keyframes slide-in {
+  from {
+      transform: translateY(30px);
+      opacity: 0;
+  }
+  to {
+      transform: translateY(0);
+      opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 1.5s ease-out;
+}
+
+/* Pop-up Effect */
+@keyframes pop-up {
+  from {
+      transform: scale(0.95);
+      opacity: 0.7;
+  }
+  to {
+      transform: scale(1);
+      opacity: 1;
+  }
+}
+
+.animate-pop-up {
+  animation: pop-up 1s ease-out;
+}
+
+/* Floating Effects */
+@keyframes float {
+  0%, 100% {
+      transform: translateY(0px);
+  }
+  50% {
+      transform: translateY(-10px);
+  }
+}
+
+@keyframes float-delayed {
+  0%, 100% {
+      transform: translateY(0px);
+  }
+  50% {
+      transform: translateY(-8px);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+      transform: translateY(0px);
+  }
+  50% {
+      transform: translateY(-6px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 5s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+
+/* Dialog container fade-in effect */
+.dialog-container {
+  animation: fadeIn 0.3s ease-in-out;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* General input row container */
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* Input Styling */
+.input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  flex-grow: 1;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus {
+  border-color: #5560ea;
+  outline: none;
+}
+
+/* Button styling */
+.btn {
+  padding: 10px;
+  border: none;
+  background-color: #5560ea;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* Button when in loading state */
+.loading {
+  background-color: #555555;
+  cursor: not-allowed;
+}
+
+/* Spinner Animation */
+.loader {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* General Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Dialog container fade-in effect */
+.dialog-container {
+  animation: fadeIn 0.3s ease-out;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 450px;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Input Field - Sleek & Responsive */
+.input-field {
+  border: 1px solid #d3d9e2;
+  border-radius: 8px;
+  padding: 10px 12px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.input-field:focus {
+  border-color: #4e79a7;
+  outline: none;
+  box-shadow: 0px 0px 8px rgba(78, 121, 167, 0.3);
+}
+
+/* Styled Labels */
+.label {
+  color: #555555;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Submit Button - Modern */
+.submit-btn {
+  background-color: #4e79a7;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.submit-btn:hover {
+  background-color: #1f5f8b;
+  transform: translateY(-2px);
+}
+
+/* Loading Button */
+.loading-btn {
+  background-color: #95b9ff;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .dialog-container {
+    padding: 15px;
+  }
+
+  .input-field {
+    padding: 8px 10px;
+  }
+}
