@@ -7,12 +7,12 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Left Section */}
           <div className="text-center md:text-left">
-            <h2 className="text-3xl font-bold text-gray-800">Job Hunt</h2>
+            <h2 className="text-3xl font-bold text-gray-800">Offcampus</h2>
             <p className="text-sm text-gray-600 mt-2">
-              © 2024 OffcampusJobs. All rights reserved.
+              © 2024 Offcampus. All rights reserved.
             </p>
             <p className="text-sm text-gray-600 mt-4 leading-relaxed">
-              "OffcampusJob is a platform connecting job seekers with top opportunities across industries. From IT and marketing to finance and management, we cater to diverse career goals. Employers can post vacancies and discover talented candidates effortlessly."
+              "Offcampus is a platform connecting job seekers with top opportunities across industries. From IT and marketing to finance and management, we cater to diverse career goals. Employers can post vacancies and discover talented candidates effortlessly."
             </p>
           </div>
 
