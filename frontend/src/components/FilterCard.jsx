@@ -48,10 +48,10 @@ const FilterCard = () => {
         {filterData.map((data, index) => (
           <motion.div
             key={data.filterType}
-            initial={{ opacity: 0, x: -10 }}
+                        initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
+transition={{ duration: 0.3, delay: index * 0.1 }}
             className="mb-6"
           >
             {/* Enhanced Section Title */}
