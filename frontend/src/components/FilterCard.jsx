@@ -12,7 +12,7 @@ const filterData = [
   },
   {
     filterType: "Industry",
-    array: ["Frontend Developer", "Backend Developer", "FullStack Developer", "Ai || ML"]
+    array: ["Frontend Developer", "Backend Developer", "FullStack Developer", "AI || ML"]
   },
   {
     filterType: "Salary",
@@ -30,7 +30,7 @@ const FilterCard = () => {
 
   useEffect(() => {
     dispatch(setSearchedQuery(selectedValue));
-  }, [selectedValue]);
+  }, [selectedValue, dispatch]);
 
   return (
     <motion.div
@@ -38,13 +38,12 @@ const FilterCard = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.1 }}
-      className="w-full bg-white p-4 rounded-lg shadow-md"
+      className="w-full bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 transform transition-all duration-300"
     >
-      {/* Section Title */}
-      <h1 className="font-bold text-lg mb-3 text-gray-700"></h1>
-      <hr className="mt-1 mb-4 border-gray-200" />
+      
+      <hr className="mb-6 border-gray-300" />
 
-      {/* Radio Group */}
+      {/* Filter Sections */}
       <RadioGroup value={selectedValue} onValueChange={changeHandler}>
         {filterData.map((data, index) => (
           <motion.div
@@ -53,27 +52,38 @@ const FilterCard = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
-            className="mt-4"
+            className="mb-6"
           >
-            <h2 className="text-gray-700 font-semibold text-md mb-2">{data.filterType}</h2>
-            {data.array.map((item, idx) => {
-              const itemId = `id${index}-${idx}`;
-              return (
-                <motion.div
-                  key={item}
-                  whileHover={{ scale: 1.1 }}
-                  className="flex items-center space-x-2 my-2 cursor-pointer transition-all duration-200 ease-in-out"
-                >
-                  <RadioGroupItem value={item} id={itemId} />
-                  <Label
-                    htmlFor={itemId}
-                    className="text-gray-600 font-medium hover:text-blue-600"
+            {/* Enhanced Section Title */}
+            <h2 className="text-xl font-semibold text-gray-800 mb-3 shadow-md px-4 py-2 bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300 rounded-lg">
+              {data.filterType}
+            </h2>
+
+            {/* Filter Options */}
+            <div className="space-y-3">
+              {data.array.map((item, idx) => {
+                const itemId = `id${index}-${idx}`;
+                return (
+                  <motion.div
+                    key={item}
+                    whileHover={{
+                      scale: 1.1,
+                      backgroundColor: "#e0f2ff",
+                      boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                    }}
+                    className="flex items-center space-x-3 cursor-pointer p-2 rounded-lg transition-colors"
                   >
-                    {item}
-                  </Label>
-                </motion.div>
-              );
-            })}
+                    <RadioGroupItem value={item} id={itemId} />
+                    <Label
+                      htmlFor={itemId}
+                      className="text-gray-700 font-medium hover:text-blue-600"
+                    >
+                      {item}
+                    </Label>
+                  </motion.div>
+                );
+              })}
+            </div>
           </motion.div>
         ))}
       </RadioGroup>
